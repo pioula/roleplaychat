@@ -12,19 +12,10 @@ import java.util.Objects;
 
 public final class Roleplaychat extends JavaPlugin {
     FileConfiguration config = getConfig();
-    private static final Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-    private static final Team admins = board.registerNewTeam("Admins");
-    private static final Team players = board.registerNewTeam("Players");
-
-    private void initTeams() {
-        admins.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
-        players.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM);
-    }
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        initTeams();
 
         config.addDefault("chat.distance", 5.0);
         config.addDefault("whisper.distance", 2.5);
@@ -33,7 +24,7 @@ public final class Roleplaychat extends JavaPlugin {
         saveConfig();
 
         getServer().getPluginManager().registerEvents(new InCharacterChat(config), this);
-        getServer().getPluginManager().registerEvents(new NickVisibility(board, admins, players), this);
+        getServer().getPluginManager().registerEvents(new NickVisibility(), this);
 
         Objects.requireNonNull(this.getCommand("me")).setExecutor(new CommandMe(config));
         Objects.requireNonNull(this.getCommand("do")).setExecutor(new CommandDo(config));

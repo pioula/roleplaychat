@@ -1,5 +1,6 @@
 package me.pioula111.roleplaychat.NameTagVisibility;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,10 +14,13 @@ public class NickVisibility implements Listener {
     Scoreboard board;
     Team admins, players;
 
-    public NickVisibility(Scoreboard board, Team admins, Team players) {
-        this.board = board;
-        this.admins = admins;
-        this.players = players;
+    public NickVisibility() {
+        this.board = Bukkit.getScoreboardManager().getNewScoreboard();
+        this.admins = board.registerNewTeam("Admins");
+        this.players = board.registerNewTeam("Players");
+
+        admins.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
+        players.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM);
     }
 
     //nametag visibility and player join and tab list
