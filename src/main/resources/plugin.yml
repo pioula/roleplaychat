@@ -1,0 +1,23 @@
+name: Roleplaychat
+version: ${project.version}
+main: me.pioula111.roleplaychat.Roleplaychat
+api-version: 1.16
+authors: [ pioula111 ]
+description: roleplaychat
+
+commands:
+  me:
+    description: me
+    usage: Wiadomość nie może być pusta! użyj /<command> <wiadomość>
+  do:
+    description: do
+    usage: Wiadomość nie może być pusta! użyj /<command> <wiadomość>
+  ooc:
+    description: ooc
+    usage: Wiadomość nie może być pusta! użyj /<command> <wiadomość>
+  sz:
+    description: sz
+    usage: Wiadomość nie może być pusta! użyj /<command> <wiadomość>
+  k:
+    description: k
+    usage: Wiadomość nie może być pusta! użyj /<command> <wiadomość>
