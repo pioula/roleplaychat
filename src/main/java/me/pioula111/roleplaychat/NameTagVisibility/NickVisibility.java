@@ -1,13 +1,16 @@
 package me.pioula111.roleplaychat.NameTagVisibility;
 
+import me.pioula111.roleplaychat.cloudChat.MarkerChat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scoreboard.*;
+
+import java.util.Objects;
 
 //quit/join and name tag
 public class NickVisibility implements Listener {
@@ -26,6 +29,7 @@ public class NickVisibility implements Listener {
     //nametag visibility and player join and tab list
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+
         Player player = event.getPlayer();
         player.setScoreboard(board);
         event.setJoinMessage(null);

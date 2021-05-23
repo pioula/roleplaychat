@@ -1,15 +1,17 @@
 package me.pioula111.roleplaychat.proximityCommands;
 
+import me.pioula111.roleplaychat.Roleplaychat;
 import me.pioula111.roleplaychat.chatColors.ChatFormating;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.scheduler.BukkitScheduler;
+
 
 public class InCharacterChat extends ProximityCommands implements Listener {
-    public InCharacterChat(FileConfiguration config) {
-        super(config);
+    public InCharacterChat(Roleplaychat plugin) {
+        super(plugin);
     }
 
     @EventHandler
