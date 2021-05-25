@@ -1,6 +1,8 @@
 package me.pioula111.roleplaychat;
 
 import me.pioula111.roleplaychat.NameTagVisibility.NickVisibility;
+import me.pioula111.roleplaychat.ids.CustomNameTag;
+import me.pioula111.roleplaychat.ids.IdManager;
 import me.pioula111.roleplaychat.lightchatbubbles.ChatBubbles;
 import me.pioula111.roleplaychat.lightchatbubbles.ChatBuffer;
 import me.pioula111.roleplaychat.proximityCommands.*;
@@ -35,6 +37,10 @@ public final class Roleplaychat extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new InCharacterChat(this), this);
         getServer().getPluginManager().registerEvents(new NickVisibility(), this);
+
+        IdManager idManager = new IdManager();
+        getServer().getPluginManager().registerEvents(idManager, this);
+        getServer().getPluginManager().registerEvents(new CustomNameTag(idManager, this), this);
 
         Objects.requireNonNull(this.getCommand("me")).setExecutor(new CommandMe(this));
         Objects.requireNonNull(this.getCommand("do")).setExecutor(new CommandDo(this));

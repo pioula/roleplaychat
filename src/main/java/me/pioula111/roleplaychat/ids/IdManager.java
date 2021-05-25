@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +22,7 @@ public class IdManager implements Listener {
         freeIds = new PriorityQueue<>();
         maxNumberOfPlayers = Bukkit.getServer().getMaxPlayers();
         for (int i = 1; i <= maxNumberOfPlayers; i++) {
-            freeIds.add(-i);
+            freeIds.add(i);
         }
         players = new Player[maxNumberOfPlayers + 1];
     }
@@ -33,12 +32,12 @@ public class IdManager implements Listener {
     }
 
     public int getIdByPlayer(Player player) {
-        return ids.get(player);
+        return ids.get(player.getUniqueId());
     }
 
     private int getNewId() {
         assert freeIds.peek() != null;
-        return -freeIds.poll();
+        return freeIds.poll();
     }
 
     @EventHandler
@@ -46,12 +45,13 @@ public class IdManager implements Listener {
         int newId = getNewId();
         players[newId] = event.getPlayer();
         ids.put(event.getPlayer().getUniqueId(), newId);
+        Bukkit.getLogger().info("idManager przydzielil: " + newId);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        int playerId = ids.get(event.getPlayer());
-        ids.remove(event.getPlayer());
+        int playerId = ids.get(event.getPlayer().getUniqueId());
+        ids.remove(event.getPlayer().getUniqueId());
         players[playerId] = null;
         freeIds.add(playerId);
     }
