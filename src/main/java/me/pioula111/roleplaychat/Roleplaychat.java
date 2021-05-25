@@ -1,16 +1,11 @@
 package me.pioula111.roleplaychat;
 
 import me.pioula111.roleplaychat.NameTagVisibility.NickVisibility;
-import me.pioula111.roleplaychat.cloudChat.MarkerManager;
 import me.pioula111.roleplaychat.lightchatbubbles.ChatBubbles;
 import me.pioula111.roleplaychat.lightchatbubbles.ChatBuffer;
 import me.pioula111.roleplaychat.proximityCommands.*;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 import java.util.Objects;
 
@@ -22,7 +17,6 @@ public final class Roleplaychat extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        BukkitScheduler sheduler = getServer().getScheduler();
 
         config.addDefault("chat.distance", 5.0);
         config.addDefault("whisper.distance", 2.5);
@@ -41,7 +35,6 @@ public final class Roleplaychat extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new InCharacterChat(this), this);
         getServer().getPluginManager().registerEvents(new NickVisibility(), this);
-        getServer().getPluginManager().registerEvents(new MarkerManager(), this);
 
         Objects.requireNonNull(this.getCommand("me")).setExecutor(new CommandMe(this));
         Objects.requireNonNull(this.getCommand("do")).setExecutor(new CommandDo(this));

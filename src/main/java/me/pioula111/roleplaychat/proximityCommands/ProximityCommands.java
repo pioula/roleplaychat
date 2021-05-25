@@ -1,6 +1,5 @@
 package me.pioula111.roleplaychat.proximityCommands;
 
-import jdk.javadoc.internal.doclets.formats.html.markup.HtmlAttr;
 import me.pioula111.roleplaychat.Roleplaychat;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,7 +38,5 @@ public abstract class ProximityCommands {
         for (Player p : nearByPlayers) {
             p.sendMessage(prefix.toString());
         }
-
-        plugin.getBuffer().receiveChat(sender, prefix.toString());
     }
 }

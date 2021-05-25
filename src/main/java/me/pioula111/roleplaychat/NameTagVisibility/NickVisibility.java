@@ -1,6 +1,5 @@
 package me.pioula111.roleplaychat.NameTagVisibility;
 
-import me.pioula111.roleplaychat.cloudChat.MarkerChat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.*;
@@ -9,8 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scoreboard.*;
-
-import java.util.Objects;
 
 //quit/join and name tag
 public class NickVisibility implements Listener {
