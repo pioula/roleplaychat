@@ -1,11 +1,8 @@
 package me.pioula111.roleplaychat;
 
+import me.pioula111.roleplaychat.NameTagVisibility.CommandShowHideNicks;
 import me.pioula111.roleplaychat.NameTagVisibility.NickVisibility;
-import me.pioula111.roleplaychat.ids.CustomNameTag;
-import me.pioula111.roleplaychat.ids.IdManager;
-import me.pioula111.roleplaychat.ids.NameTagManager;
-import me.pioula111.roleplaychat.lightchatbubbles.ChatBubbles;
-import me.pioula111.roleplaychat.lightchatbubbles.ChatBuffer;
+import me.pioula111.roleplaychat.ids.*;
 import me.pioula111.roleplaychat.proximityCommands.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,8 +11,6 @@ import java.util.Objects;
 
 public final class Roleplaychat extends JavaPlugin {
     FileConfiguration config = getConfig();
-    private ChatBuffer buffer;
-    private ChatBubbles bubbles;
 
     @Override
     public void onEnable() {
@@ -33,11 +28,10 @@ public final class Roleplaychat extends JavaPlugin {
         config.options().copyDefaults();
         saveConfig();
 
-        bubbles = new ChatBubbles(this);
-        buffer = new ChatBuffer(this);
+        NickVisibility nickVisibility = new NickVisibility();
 
         getServer().getPluginManager().registerEvents(new InCharacterChat(this), this);
-        getServer().getPluginManager().registerEvents(new NickVisibility(), this);
+        getServer().getPluginManager().registerEvents(nickVisibility, this);
 
         IdManager idManager = new IdManager();
         getServer().getPluginManager().registerEvents(idManager, this);
@@ -49,18 +43,15 @@ public final class Roleplaychat extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("ooc")).setExecutor(new CommandOOC(this));
         Objects.requireNonNull(this.getCommand("sz")).setExecutor(new CommandSz(this));
         Objects.requireNonNull(this.getCommand("k")).setExecutor(new CommandK(this));
+
+        Objects.requireNonNull(this.getCommand("showhidenicks")).setExecutor(new CommandShowHideNicks(nickVisibility));
+        Objects.requireNonNull(this.getCommand("checkid")).setExecutor(new CommandCheckId(idManager));
+        Objects.requireNonNull(this.getCommand("checkplayerid")).setExecutor(new CommandCheckPlayerId(idManager));
     }
 
     @Override
     public void onDisable() {
+        NameTagManager.clearNameTags();
         // Plugin shutdown logic
-    }
-
-    public ChatBubbles getBubbles() {
-        return bubbles;
-    }
-
-    public ChatBuffer getBuffer() {
-        return buffer;
     }
 }

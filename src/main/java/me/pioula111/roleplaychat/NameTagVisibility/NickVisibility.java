@@ -11,8 +11,8 @@ import org.bukkit.scoreboard.*;
 
 //quit/join and name tag
 public class NickVisibility implements Listener {
-    Scoreboard board;
-    Team admins, players;
+    private Scoreboard board;
+    private Team admins, players;
 
     public NickVisibility() {
         this.board = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -31,19 +31,25 @@ public class NickVisibility implements Listener {
         player.setScoreboard(board);
         event.setJoinMessage(null);
 
-        if (player.isOp()) {
-            admins.addEntry(player.getName());
+        if (player.isOp())
             player.setPlayerListName(ChatColor.RED + "Admin");
-        }
-        else {
-            players.addEntry(player.getName());
+        else
             player.setPlayerListName(ChatColor.GRAY+ "Gracz");
-        }
+
+        players.addEntry(player.getName());
     }
 
     //player left
     @EventHandler
     public void onPlayerLeft(PlayerQuitEvent event) {
         event.setQuitMessage(null);
+    }
+
+    public Team getAdmins() {
+        return admins;
+    }
+
+    public Team getPlayers() {
+        return players;
     }
 }

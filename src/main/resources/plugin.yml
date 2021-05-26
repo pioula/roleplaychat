@@ -21,3 +21,15 @@ commands:
   k:
     description: k
     usage: Wiadomość nie może być pusta! użyj /<command> <wiadomość>
+  showhidenicks:
+    description: showhidenicks
+    usage: /<command>
+    permission: Operator
+  checkid:
+    description: checkid
+    usage: /<command> <id>
+    permission: Operator
+  checkplayerid:
+    description: checkplayerid
+    usage: /<command> <player name>
+    permission: Operator

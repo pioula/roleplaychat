@@ -28,6 +28,8 @@ public class IdManager implements Listener {
     }
 
     public Player getPlayerById(int id) {
+        if (id > maxNumberOfPlayers)
+            return null;
         return players[id];
     }
 

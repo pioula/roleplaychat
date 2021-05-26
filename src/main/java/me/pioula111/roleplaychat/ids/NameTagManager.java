@@ -1,7 +1,10 @@
 package me.pioula111.roleplaychat.ids;
 
 import me.pioula111.roleplaychat.Roleplaychat;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.AreaEffectCloud;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,12 +13,20 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 
 public class NameTagManager implements Listener {
     Roleplaychat plugin;
-    CustomNameTag customNameTag;
     IdManager idManager;
 
     public NameTagManager(Roleplaychat plugin, IdManager idManager) {
         this.plugin = plugin;
         this.idManager = idManager;
+    }
+
+    public static void clearNameTags() {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            for (Entity entity : player.getPassengers()) {
+                if (entity.getType() == EntityType.AREA_EFFECT_CLOUD)
+                    entity.remove();
+            }
+        }
     }
 
     @EventHandler
