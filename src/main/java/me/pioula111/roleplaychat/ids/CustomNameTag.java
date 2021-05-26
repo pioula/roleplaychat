@@ -1,7 +1,6 @@
 package me.pioula111.roleplaychat.ids;
 
 import me.pioula111.roleplaychat.Roleplaychat;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
@@ -21,7 +20,7 @@ public class CustomNameTag implements Listener {
     }
 
 
-    private void spawnNameTag(Entity vehicle, String id, Location spawnPoint, int duration)
+    private static void spawnNameTag(Entity vehicle, String id, Location spawnPoint)
     {
         // spawn name tag away from player in same chunk, then set invisible
         AreaEffectCloud nameTag = (AreaEffectCloud) spawnPoint.getWorld().spawnEntity(spawnPoint, EntityType.AREA_EFFECT_CLOUD);
@@ -35,15 +34,15 @@ public class CustomNameTag implements Listener {
 
         // set duration and return
         nameTag.setWaitTime(0);
-        nameTag.setDuration(duration);
+        nameTag.setDuration(CustomNameTag.INFINITY);
     }
 
-    private void setIdAsCustomNameTag(Player player, String id)
+    public static void setIdAsCustomNameTag(Player player, String id)
     {
         Location spawnPoint = player.getLocation();
         spawnPoint.setY(-1);
 
-        spawnNameTag(player, id, spawnPoint, INFINITY);
+        spawnNameTag(player, id, spawnPoint);
     }
 
     @EventHandler
@@ -58,8 +57,9 @@ public class CustomNameTag implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                setIdAsCustomNameTag(player, playerId);
+                if (player.isOnline())
+                    setIdAsCustomNameTag(player, playerId);
             }
-        }.runTaskLater(this.plugin, 20);
+        }.runTaskLater(this.plugin, 0);
     }
 }
