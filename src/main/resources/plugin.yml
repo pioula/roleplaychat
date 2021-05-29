@@ -33,3 +33,6 @@ commands:
     description: checkplayerid
     usage: /<command> <player name>
     permission: Operator
+  poznaj:
+    description: poznaj
+    usage: /<command> <player id> <new name>

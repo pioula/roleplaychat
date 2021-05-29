@@ -26,7 +26,6 @@ public class NickVisibility implements Listener {
     //nametag visibility and player join and tab list
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-
         Player player = event.getPlayer();
         player.setScoreboard(board);
         event.setJoinMessage(null);
