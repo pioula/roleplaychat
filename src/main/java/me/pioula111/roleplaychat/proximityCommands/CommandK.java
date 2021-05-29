@@ -1,6 +1,7 @@
 package me.pioula111.roleplaychat.proximityCommands;
 
 import me.pioula111.roleplaychat.Roleplaychat;
+import me.pioula111.roleplaychat.jsonManager.AllPlayersData;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,8 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandK extends ProximityCommands implements CommandExecutor {
-    public CommandK(Roleplaychat plugin) {
-        super(plugin);
+    public CommandK(Roleplaychat plugin, AllPlayersData allPlayersData) {
+        super(plugin, allPlayersData);
     }
 
     @Override
@@ -20,8 +21,7 @@ public class CommandK extends ProximityCommands implements CommandExecutor {
         Player commandSender = (Player)sender;
 
         StringBuilder message = new StringBuilder();
-        message.append(ChatColor.DARK_RED).append("[Krzyk]").append(ChatColor.RED).append(commandSender.getDisplayName());
-        message.append(ChatColor.DARK_RED).append(": ").append(ChatColor.RED);
+        message.append(ChatColor.DARK_RED).append("[Krzyk]").append(ChatColor.RED);
 
         sendMessages(commandSender, message, args, config.getDouble("shout.distance"));
         return true;

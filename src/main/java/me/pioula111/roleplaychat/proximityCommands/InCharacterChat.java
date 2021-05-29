@@ -2,6 +2,7 @@ package me.pioula111.roleplaychat.proximityCommands;
 
 import me.pioula111.roleplaychat.Roleplaychat;
 import me.pioula111.roleplaychat.chatColors.ChatFormating;
+import me.pioula111.roleplaychat.jsonManager.AllPlayersData;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,18 +10,18 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 
 public class InCharacterChat extends ProximityCommands implements Listener {
-    public InCharacterChat(Roleplaychat plugin) {
-        super(plugin);
+    public InCharacterChat(Roleplaychat plugin, AllPlayersData allPlayersData) {
+        super(plugin, allPlayersData);
     }
 
     @EventHandler
     public void onSendChat(AsyncPlayerChatEvent event) {
-        String ic = ChatColor.DARK_GRAY + "[IC]" +  ChatColor.RESET;
-        String player = ChatColor.GRAY + event.getPlayer().getDisplayName() + ChatColor.DARK_GRAY + ": " + ChatColor.RESET;
+        StringBuilder ic = new StringBuilder();
+        ic.append(ChatColor.DARK_GRAY).append("[IC]").append(ChatColor.GRAY);
         String message = ChatFormating.formatMessage(event.getMessage());
-        String[] wholeMessage = {ic + player + message};
+        String[] wholeMessage = {message};
 
-        sendMessages(event.getPlayer(), new StringBuilder(), wholeMessage, config.getDouble("chat.distance"));
+        sendMessages(event.getPlayer(), ic, wholeMessage, config.getDouble("chat.distance"));
         event.setCancelled(true);
     }
 }

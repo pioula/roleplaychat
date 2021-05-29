@@ -29,7 +29,7 @@ public final class Roleplaychat extends JavaPlugin {
 
         NickVisibility nickVisibility = new NickVisibility();
 
-        getServer().getPluginManager().registerEvents(new InCharacterChat(this), this);
+        getServer().getPluginManager().registerEvents(new InCharacterChat(this, getJsonConfig().getAllPlayersData()), this);
         getServer().getPluginManager().registerEvents(nickVisibility, this);
 
         IdManager idManager = new IdManager();
@@ -37,11 +37,11 @@ public final class Roleplaychat extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CustomNameTag(idManager, this), this);
         getServer().getPluginManager().registerEvents(new NameTagManager(this, idManager), this);
 
-        Objects.requireNonNull(this.getCommand("me")).setExecutor(new CommandMe(this));
-        Objects.requireNonNull(this.getCommand("do")).setExecutor(new CommandDo(this));
-        Objects.requireNonNull(this.getCommand("ooc")).setExecutor(new CommandOOC(this));
-        Objects.requireNonNull(this.getCommand("sz")).setExecutor(new CommandSz(this));
-        Objects.requireNonNull(this.getCommand("k")).setExecutor(new CommandK(this));
+        Objects.requireNonNull(this.getCommand("me")).setExecutor(new CommandMe(this, getJsonConfig().getAllPlayersData()));
+        Objects.requireNonNull(this.getCommand("do")).setExecutor(new CommandDo(this, getJsonConfig().getAllPlayersData()));
+        Objects.requireNonNull(this.getCommand("ooc")).setExecutor(new CommandOOC(this, getJsonConfig().getAllPlayersData()));
+        Objects.requireNonNull(this.getCommand("sz")).setExecutor(new CommandSz(this, getJsonConfig().getAllPlayersData()));
+        Objects.requireNonNull(this.getCommand("k")).setExecutor(new CommandK(this, getJsonConfig().getAllPlayersData()));
 
         Objects.requireNonNull(this.getCommand("showhidenicks")).setExecutor(new CommandShowHideNicks(nickVisibility));
         Objects.requireNonNull(this.getCommand("checkid")).setExecutor(new CommandCheckId(idManager));

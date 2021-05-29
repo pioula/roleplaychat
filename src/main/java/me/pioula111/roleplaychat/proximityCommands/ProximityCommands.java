@@ -1,6 +1,7 @@
 package me.pioula111.roleplaychat.proximityCommands;
 
 import me.pioula111.roleplaychat.Roleplaychat;
+import me.pioula111.roleplaychat.jsonManager.AllPlayersData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 public abstract class ProximityCommands {
     protected FileConfiguration config;
     private Roleplaychat plugin;
+    private AllPlayersData allPlayersData;
 
-    public ProximityCommands(Roleplaychat plugin) {
+    public ProximityCommands(Roleplaychat plugin, AllPlayersData allPlayersData) {
         this.config = plugin.getConfig();
         this.plugin = plugin;
+        this.allPlayersData = allPlayersData;
     }
 
     protected ArrayList<Player> getNearByPlayers(Player player, double distance) {
@@ -28,15 +31,26 @@ public abstract class ProximityCommands {
         return result;
     }
 
+    private String getCorrectName(Player player, Player friend) {
+        if (friend.getName().equals(player.getName()))
+            return player.getDisplayName() + "|Ty";
+        String name =  allPlayersData.getFriendsName(player, friend);
+        if (name == null)
+            return friend.getDisplayName();
+        return friend.getDisplayName() + "|" + name;
+    }
+
     protected void sendMessages(Player sender, StringBuilder prefix, String[] words, double distance) {
+        StringBuilder sufix = new StringBuilder();
+
         for (String word : words) {
-            prefix.append(word).append(" ");
+            sufix.append(word);
         }
 
         ArrayList<Player> nearByPlayers = getNearByPlayers(sender, distance);
 
         for (Player p : nearByPlayers) {
-            p.sendMessage(prefix.toString());
+            p.sendMessage(prefix.toString() + " " + getCorrectName(p, sender) + ": " + sufix);
         }
     }
 }
