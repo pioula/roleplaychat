@@ -5,6 +5,7 @@ import me.pioula111.roleplaychat.NameTagVisibility.NickVisibility;
 import me.pioula111.roleplaychat.friends.CommandPoznaj;
 import me.pioula111.roleplaychat.ids.*;
 import me.pioula111.roleplaychat.jsonManager.JsonConfig;
+import me.pioula111.roleplaychat.mask.MaskManager;
 import me.pioula111.roleplaychat.proximityCommands.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,6 +37,7 @@ public final class Roleplaychat extends JavaPlugin {
         getServer().getPluginManager().registerEvents(idManager, this);
         getServer().getPluginManager().registerEvents(new CustomNameTag(idManager, this), this);
         getServer().getPluginManager().registerEvents(new NameTagManager(this, idManager), this);
+        getServer().getPluginManager().registerEvents(new MaskManager(idManager, this), this);
 
         Objects.requireNonNull(this.getCommand("me")).setExecutor(new CommandMe(this, getJsonConfig().getAllPlayersData()));
         Objects.requireNonNull(this.getCommand("do")).setExecutor(new CommandDo(this, getJsonConfig().getAllPlayersData()));
@@ -51,7 +53,7 @@ public final class Roleplaychat extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        jsonConfig.wypisz();
+       // jsonConfig.wypisz();
         jsonConfig.save();
         //when server is shutting down name tags don't clear so you need to clear them
         NameTagManager.clearNameTags();

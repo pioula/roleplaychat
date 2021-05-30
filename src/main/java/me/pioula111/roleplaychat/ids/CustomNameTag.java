@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -37,8 +38,25 @@ public class CustomNameTag implements Listener {
         nameTag.setDuration(CustomNameTag.INFINITY);
     }
 
+    public static boolean hasNameTag(Player player) {
+        for (Entity entity : player.getPassengers()) {
+            if (entity.getType() == EntityType.AREA_EFFECT_CLOUD)
+                return true;
+        }
+
+        return false;
+    }
+
+    public static void removeNameTag(Player player) {
+        for (Entity entity : player.getPassengers()) {
+            if (entity.getType() == EntityType.AREA_EFFECT_CLOUD)
+                entity.remove();
+        }
+    }
+
     public static void setIdAsCustomNameTag(Player player, String id)
     {
+        removeNameTag(player);
         Location spawnPoint = player.getLocation();
         spawnPoint.setY(-1);
 

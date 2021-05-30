@@ -2,6 +2,7 @@ package me.pioula111.roleplaychat.proximityCommands;
 
 import me.pioula111.roleplaychat.Roleplaychat;
 import me.pioula111.roleplaychat.jsonManager.AllPlayersData;
+import me.pioula111.roleplaychat.mask.Mask;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -32,8 +33,10 @@ public abstract class ProximityCommands {
     }
 
     private String getCorrectName(Player player, Player friend) {
+        if (Mask.isWearingMask(friend))
+            return "Zamaskowany";
         if (friend.getName().equals(player.getName()))
-            return player.getDisplayName() + "|Ty";
+            return player.getDisplayName() + "|Ja";
         String name =  allPlayersData.getFriendsName(player, friend);
         if (name == null)
             return friend.getDisplayName();

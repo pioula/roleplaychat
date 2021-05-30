@@ -1,6 +1,7 @@
 package me.pioula111.roleplaychat.ids;
 
 import me.pioula111.roleplaychat.Roleplaychat;
+import me.pioula111.roleplaychat.mask.Mask;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Entity;
@@ -38,7 +39,7 @@ public class NameTagManager implements Listener {
                     @Override
                     public void run() {
                         Player player = (Player) event.getDismounted();
-                        if (((Player) event.getDismounted()).isOnline())
+                        if (((Player) event.getDismounted()).isOnline() && !Mask.isWearingMask((Player) event.getDismounted()))
                             CustomNameTag.setIdAsCustomNameTag(player, String.valueOf(idManager.getIdByPlayer(player)));
                     }
                 }.runTaskLater(this.plugin, 0);
