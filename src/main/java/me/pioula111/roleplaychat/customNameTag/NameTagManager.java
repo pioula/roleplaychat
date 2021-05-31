@@ -1,4 +1,4 @@
-package me.pioula111.roleplaychat.ids;
+package me.pioula111.roleplaychat.customNameTag;
 
 import me.pioula111.roleplaychat.Roleplaychat;
 import me.pioula111.roleplaychat.mask.Mask;
@@ -9,16 +9,16 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 public class NameTagManager implements Listener {
     Roleplaychat plugin;
-    IdManager idManager;
 
-    public NameTagManager(Roleplaychat plugin, IdManager idManager) {
+    public NameTagManager(Roleplaychat plugin) {
         this.plugin = plugin;
-        this.idManager = idManager;
     }
 
     public static void clearNameTags() {
@@ -32,17 +32,19 @@ public class NameTagManager implements Listener {
 
     @EventHandler
     public void onEntityDismount(EntityDismountEvent event) {
-        if (event.getEntity() instanceof AreaEffectCloud) {
+        if (event.getEntity() instanceof AreaEffectCloud && event.getEntity().getCustomName() != null) {
             if (event.getDismounted() instanceof Player) {
-                event.getEntity().remove();
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        Player player = (Player) event.getDismounted();
-                        if (((Player) event.getDismounted()).isOnline() && !Mask.isWearingMask((Player) event.getDismounted()))
-                            CustomNameTag.setIdAsCustomNameTag(player, String.valueOf(idManager.getIdByPlayer(player)));
-                    }
-                }.runTaskLater(this.plugin, 0);
+                if (event.getEntity().getCustomName().equals(event.getDismounted().getCustomName())) {
+                    event.getEntity().remove();
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            Player player = (Player) event.getDismounted();
+                            if (((Player) event.getDismounted()).isOnline() && !Mask.isWearingMask((Player) event.getDismounted()))
+                                CustomNameTag.setCustomNametag(player, CustomNameTag.getNameTag(player));
+                        }
+                    }.runTaskLater(this.plugin, 0);
+                }
             }
         }
     }

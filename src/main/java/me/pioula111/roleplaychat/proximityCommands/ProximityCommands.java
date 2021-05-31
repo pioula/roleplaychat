@@ -1,7 +1,7 @@
 package me.pioula111.roleplaychat.proximityCommands;
 
 import me.pioula111.roleplaychat.Roleplaychat;
-import me.pioula111.roleplaychat.jsonManager.AllPlayersData;
+import me.pioula111.roleplaychat.customNameTag.CustomNameTag;
 import me.pioula111.roleplaychat.mask.Mask;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,12 +12,10 @@ import java.util.ArrayList;
 public abstract class ProximityCommands {
     protected FileConfiguration config;
     private Roleplaychat plugin;
-    private AllPlayersData allPlayersData;
 
-    public ProximityCommands(Roleplaychat plugin, AllPlayersData allPlayersData) {
+    public ProximityCommands(Roleplaychat plugin) {
         this.config = plugin.getConfig();
         this.plugin = plugin;
-        this.allPlayersData = allPlayersData;
     }
 
     protected ArrayList<Player> getNearByPlayers(Player player, double distance) {
@@ -32,28 +30,37 @@ public abstract class ProximityCommands {
         return result;
     }
 
-    private String getCorrectName(Player player, Player friend) {
-        if (Mask.isWearingMask(friend))
-            return "Zamaskowany";
-        if (friend.getName().equals(player.getName()))
-            return player.getDisplayName() + "|Ja";
-        String name =  allPlayersData.getFriendsName(player, friend);
-        if (name == null)
-            return friend.getDisplayName();
-        return friend.getDisplayName() + "|" + name;
+    private String getCorrectName(Player sender, Player reciever) {
+        String nick = "";
+        try {
+            if (reciever.getScoreboard().getTeam("Admins").hasEntry(reciever.getName()))
+                nick = "(" + sender.getName() + ")";
+        }
+        catch (Exception ignored) {}
+
+        if (Mask.isWearingMask(sender))
+            return nick + "Zamaskowany";
+        else
+           return nick + sender.getDisplayName();
     }
 
     protected void sendMessages(Player sender, StringBuilder prefix, String[] words, double distance) {
         StringBuilder sufix = new StringBuilder();
 
-        for (String word : words) {
-            sufix.append(word);
+        if (sender.getDisplayName().equals("Bezimienny")) {
+            CustomNameTag.komunikatZmienImie(sender);
+        }
+
+        for (int i = 0; i < words.length; i++) {
+            sufix.append(words[i]);
+            if (i + 1 < words.length)
+                sufix.append(" ");
         }
 
         ArrayList<Player> nearByPlayers = getNearByPlayers(sender, distance);
 
         for (Player p : nearByPlayers) {
-            p.sendMessage(prefix.toString() + " " + getCorrectName(p, sender) + ": " + sufix);
+            p.sendMessage(prefix.toString() + " " + getCorrectName(sender, p) + ": " + sufix);
         }
     }
 }

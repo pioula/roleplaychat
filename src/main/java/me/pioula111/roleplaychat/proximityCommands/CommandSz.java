@@ -1,7 +1,6 @@
 package me.pioula111.roleplaychat.proximityCommands;
 
 import me.pioula111.roleplaychat.Roleplaychat;
-import me.pioula111.roleplaychat.jsonManager.AllPlayersData;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,8 +9,8 @@ import org.bukkit.entity.Player;
 
 
 public class CommandSz extends ProximityCommands implements CommandExecutor {
-    public CommandSz(Roleplaychat plugin, AllPlayersData allPlayersData) {
-        super(plugin, allPlayersData);
+    public CommandSz(Roleplaychat plugin) {
+        super(plugin);
     }
 
     @Override
